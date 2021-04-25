@@ -35,6 +35,10 @@ public:
     const valueType& operator[](size_t idx) const;
     DLL::Node* getNode(size_t idx);
 
+    void forEach(void (*fn)(valueType));
+    void map(valueType (*fn)(valueType));
+    void filter(bool (*fn)(valueType));
+
 private:
     Node* _head;
     Node* _tail;

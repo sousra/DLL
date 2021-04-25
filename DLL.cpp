@@ -188,3 +188,33 @@ DLL::Node* DLL::getNode(size_t idx) {
 
     return cur;
 }
+
+void DLL::forEach(void (*fn)(valueType)) {
+    Node* cur = _head;
+    while (cur) {
+        fn(cur->_value);
+        cur = cur->_next;
+    }
+}
+
+void DLL::map(valueType (*fn)(valueType)) {
+    Node* cur = _head;
+    while (cur) {
+        cur->_value = fn(cur->_value);
+        cur = cur->_next;
+    }
+}
+
+void DLL::filter(bool (*fn)(valueType)) {
+    Node* cur = _tail;
+    Node* temp;
+    size_t i = _size - 1;
+    while (cur) {
+        temp = cur->_prev;
+        if (!fn(cur->_value)) {
+            erase(i);
+        }
+        cur = temp;
+        --i;
+    }
+}
