@@ -27,7 +27,7 @@ void DLL::insert(size_t idx, const valueType& value) {
         cur->_prev->_next = temp;
         temp->_next = cur;
         cur->_prev = temp;
-
+		++_size;
     }
 }
 
@@ -188,24 +188,3 @@ DLL::Node* DLL::getNode(size_t idx) {
 
     return cur;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

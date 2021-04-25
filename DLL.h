@@ -40,5 +40,3 @@ private:
     Node* _tail;
     size_t _size;
 };
-
-
