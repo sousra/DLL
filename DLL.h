@@ -14,6 +14,29 @@ class DLL {
     };
 
 public:
+    class Iterator {
+    public:
+        Iterator() = default;
+        Iterator(Node* ptr);
+
+        valueType& operator*();
+
+        Iterator& operator++();
+        Iterator& operator--();
+
+        Iterator operator++(int);
+        Iterator operator--(int);
+
+        bool operator!=(const Iterator& other);
+        bool operator==(const Iterator& other);
+
+    private:
+        Node* _ptr;
+    };
+    Iterator begin();
+    Iterator end();
+
+public:
     DLL();
     ~DLL();
 
