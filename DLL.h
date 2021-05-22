@@ -41,11 +41,13 @@ public:
     ~DLL();
 
     void insert(size_t idx, const valueType& value);
+    void insert(Iterator pos, const valueType& value);
     void pushFront(const valueType& value);
     void pushBack(const valueType& value);
 
     void clear();
     void erase(size_t idx);
+    void erase(Iterator pos);
     void popFront();
     void popBack();
 

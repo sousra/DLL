@@ -32,6 +32,16 @@ void DLL::insert(size_t idx, const valueType& value) {
     }
 }
 
+void DLL::insert(DLL::Iterator pos, const valueType& value) {
+    DLL::Iterator it = begin();
+    size_t idx = 0;
+    while (it != pos) {
+        ++it;
+        ++idx;
+    }
+    insert(idx, value);
+}
+
 void DLL::pushFront(const valueType& value) {
     /* Нет головы, нет хвоста */
     if (!_head) {
@@ -88,6 +98,16 @@ void DLL::erase(size_t idx) {
     }
 }
 
+void DLL::erase(DLL::Iterator pos) {
+    DLL::Iterator it = begin();
+    size_t idx = 0;
+    while (it != pos) {
+        ++it;
+        ++idx;
+    }
+    erase(idx);
+}
+
 void DLL::popFront() {
     if (_head == _tail) {
         delete _head;
@@ -141,26 +161,7 @@ void DLL::print() const {
 }
 
 valueType& DLL::operator[](size_t idx) {
-    Node* cur;
-    size_t i;
-    if (idx < _size / 2) {
-        cur = _head;
-        i = 0;
-        while (i != idx) {
-            cur = cur->_next;
-            ++i;
-        }
-    }
-    else {
-        cur = _tail;
-        i = _size - 1;
-        while (i != idx) {
-            cur = cur->_prev;
-            --i;
-        }
-    }
-
-    return cur->_value;
+    return getNode(idx)->_value;
 }
 
 const valueType& DLL::operator[](size_t idx) const {
