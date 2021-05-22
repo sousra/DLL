@@ -38,6 +38,11 @@ public:
 
 public:
     DLL();
+
+    DLL(const DLL& other);
+    DLL(DLL&& other);
+    DLL& operator=(const DLL& other);
+    DLL& operator=(DLL&& other);
     ~DLL();
 
     void insert(size_t idx, const valueType& value);

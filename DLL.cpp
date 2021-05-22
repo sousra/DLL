@@ -10,6 +10,44 @@ DLL::DLL() {
     _size = 0;
 }
 
+DLL::DLL(const DLL& other) : DLL() {
+    Node* cur = other._head;
+    while (cur != nullptr) {
+        pushBack(cur->_value);
+        cur = cur->_next;
+    }
+}
+
+DLL::DLL(DLL&& other) {
+    _head = other._head;
+    _tail = other._tail;
+    _size = other._size;
+    other._head = nullptr;
+    other._tail = nullptr;
+    other._size = 0;
+}
+
+DLL& DLL::operator=(const DLL& other) {
+    if (this != &other) {
+        clear();
+        Node* cur = other._head;
+        while (cur != nullptr) {
+            pushBack(cur->_value);
+            cur = cur->_next;
+        }
+    }
+    return *this;
+}
+
+DLL& DLL::operator=(DLL&& other) {
+    if (this != &other) {
+        std::swap(_head, other._head);
+        std::swap(_tail, other._tail);
+        std::swap(_size, other._size);
+    }
+    return *this;
+}
+
 DLL::~DLL() {
     clear();
 }
@@ -78,7 +116,7 @@ void DLL::pushBack(const valueType& value) {
 void DLL::clear() {
     size_t size = _size;
     for (size_t i = 0; i < size; ++i) {
-        popBack();
+        popFront();
     }
 }
 
