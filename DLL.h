@@ -1,14 +1,14 @@
 #pragma once
 #include <iostream>
-using valueType = int;
 
+template<class T>
 class DLL {
     class Node {
     public:
         Node* _next;
         Node* _prev;
-        valueType _value;
-        Node(valueType value)
+        T _value;
+        Node(T value)
                 : _next(nullptr), _prev(nullptr),
                   _value(value) { }
     };
@@ -19,7 +19,7 @@ public:
         Iterator() = default;
         Iterator(Node* ptr);
 
-        valueType& operator*();
+        T& operator*();
 
         Iterator& operator++();
         Iterator& operator--();
@@ -45,10 +45,10 @@ public:
     DLL& operator=(DLL&& other);
     ~DLL();
 
-    void insert(size_t idx, const valueType& value);
-    void insert(Iterator pos, const valueType& value);
-    void pushFront(const valueType& value);
-    void pushBack(const valueType& value);
+    void insert(size_t idx, const T& value);
+    void insert(Iterator pos, const T& value);
+    void pushFront(const T& value);
+    void pushBack(const T& value);
 
     void clear();
     void erase(size_t idx);
@@ -57,17 +57,17 @@ public:
     void popBack();
 
     size_t size() const;
-    const valueType& front() const;
-    const valueType& back() const;
+    const T& front() const;
+    const T& back() const;
     void print() const;
 
-    valueType& operator[](size_t idx);
-    const valueType& operator[](size_t idx) const;
-    DLL::Node* getNode(size_t idx);
+    T& operator[](size_t idx);
+    const T& operator[](size_t idx) const;
+    Node* getNode(size_t idx);
 
-    void forEach(void (*fn)(valueType));
-    void map(valueType (*fn)(valueType));
-    void filter(bool (*fn)(valueType));
+//    void forEach(void (*fn)(T));
+//    void map(void (*fn)(T));
+//    void filter(bool (*fn)(T));
 
 private:
     Node* _head;

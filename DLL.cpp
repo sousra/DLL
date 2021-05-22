@@ -4,13 +4,15 @@
 
 using namespace std;
 
-DLL::DLL() {
+template<class T>
+DLL<T>::DLL() {
     _head = nullptr;
     _tail = nullptr;
     _size = 0;
 }
 
-DLL::DLL(const DLL& other) : DLL() {
+template<class T>
+DLL<T>::DLL(const DLL& other) : DLL() {
     Node* cur = other._head;
     while (cur != nullptr) {
         pushBack(cur->_value);
@@ -18,7 +20,8 @@ DLL::DLL(const DLL& other) : DLL() {
     }
 }
 
-DLL::DLL(DLL&& other) {
+template<class T>
+DLL<T>::DLL(DLL<T>&& other) {
     _head = other._head;
     _tail = other._tail;
     _size = other._size;
@@ -27,7 +30,8 @@ DLL::DLL(DLL&& other) {
     other._size = 0;
 }
 
-DLL& DLL::operator=(const DLL& other) {
+template<class T>
+DLL<T>& DLL<T>::operator=(const DLL<T>& other) {
     if (this != &other) {
         clear();
         Node* cur = other._head;
@@ -39,7 +43,8 @@ DLL& DLL::operator=(const DLL& other) {
     return *this;
 }
 
-DLL& DLL::operator=(DLL&& other) {
+template<class T>
+DLL<T>& DLL<T>::operator=(DLL<T>&& other) {
     if (this != &other) {
         std::swap(_head, other._head);
         std::swap(_tail, other._tail);
@@ -48,11 +53,13 @@ DLL& DLL::operator=(DLL&& other) {
     return *this;
 }
 
-DLL::~DLL() {
+template<class T>
+DLL<T>::~DLL() {
     clear();
 }
 
-void DLL::insert(size_t idx, const valueType& value) {
+template<class T>
+void DLL<T>::insert(size_t idx, const T& value) {
     if (idx == 0) {
         pushFront(value);
     }
@@ -70,7 +77,8 @@ void DLL::insert(size_t idx, const valueType& value) {
     }
 }
 
-void DLL::insert(DLL::Iterator pos, const valueType& value) {
+template<class T>
+void DLL<T>::insert(DLL<T>::Iterator pos, const T& value) {
     DLL::Iterator it = begin();
     size_t idx = 0;
     while (it != pos) {
@@ -80,7 +88,8 @@ void DLL::insert(DLL::Iterator pos, const valueType& value) {
     insert(idx, value);
 }
 
-void DLL::pushFront(const valueType& value) {
+template<class T>
+void DLL<T>::pushFront(const T& value) {
     /* Нет головы, нет хвоста */
     if (!_head) {
         _head = new Node(value);
@@ -96,7 +105,9 @@ void DLL::pushFront(const valueType& value) {
 
     ++_size;
 }
-void DLL::pushBack(const valueType& value) {
+
+template<class T>
+void DLL<T>::pushBack(const T& value) {
     /* Нет головы, нет хвоста */
     if (!_head) {
         _head = new Node(value);
@@ -113,14 +124,16 @@ void DLL::pushBack(const valueType& value) {
     ++_size;
 }
 
-void DLL::clear() {
+template<class T>
+void DLL<T>::clear() {
     size_t size = _size;
     for (size_t i = 0; i < size; ++i) {
         popFront();
     }
 }
 
-void DLL::erase(size_t idx) {
+template<class T>
+void DLL<T>::erase(size_t idx) {
     if (idx == 0) {
         popFront();
     }
@@ -136,8 +149,9 @@ void DLL::erase(size_t idx) {
     }
 }
 
-void DLL::erase(DLL::Iterator pos) {
-    DLL::Iterator it = begin();
+template<class T>
+void DLL<T>::erase(DLL<T>::Iterator pos) {
+    DLL<T>::Iterator it = begin();
     size_t idx = 0;
     while (it != pos) {
         ++it;
@@ -146,7 +160,8 @@ void DLL::erase(DLL::Iterator pos) {
     erase(idx);
 }
 
-void DLL::popFront() {
+template<class T>
+void DLL<T>::popFront() {
     if (_head == _tail) {
         delete _head;
         _head = nullptr;
@@ -161,7 +176,8 @@ void DLL::popFront() {
     --_size;
 }
 
-void DLL::popBack() {
+template<class T>
+void DLL<T>::popBack() {
     if (_head == _tail) {
         delete _head;
         _head = nullptr;
@@ -176,19 +192,23 @@ void DLL::popBack() {
     --_size;
 }
 
-size_t DLL::size() const {
+template<class T>
+size_t DLL<T>::size() const {
     return _size;
 }
 
-const valueType& DLL::front() const {
+template<class T>
+const T& DLL<T>::front() const {
     return _head->_value;
 }
 
-const valueType& DLL::back() const {
+template<class T>
+const T& DLL<T>::back() const {
     return _tail->_value;
 }
 
-void DLL::print() const {
+template<class T>
+void DLL<T>::print() const {
     Node* cur = _head;
     cout << "(nullptr)" << " -> ";
     while (cur) {
@@ -198,15 +218,18 @@ void DLL::print() const {
     cout << "(nullptr)" << endl;
 }
 
-valueType& DLL::operator[](size_t idx) {
+template<class T>
+T& DLL<T>::operator[](size_t idx) {
     return getNode(idx)->_value;
 }
 
-const valueType& DLL::operator[](size_t idx) const {
+template<class T>
+const T& DLL<T>::operator[](size_t idx) const {
     return (*this)[idx];
 }
 
-DLL::Node* DLL::getNode(size_t idx) {
+template<class T>
+class DLL<T>::Node* DLL<T>::getNode(size_t idx) {
     Node* cur;
     size_t i;
     if (idx < _size / 2) {
@@ -229,7 +252,9 @@ DLL::Node* DLL::getNode(size_t idx) {
     return cur;
 }
 
-void DLL::forEach(void (*fn)(valueType)) {
+/*
+template<class T>
+void DLL<T>::forEach(void (*fn)(T)) {
     Node* cur = _head;
     while (cur) {
         fn(cur->_value);
@@ -237,7 +262,8 @@ void DLL::forEach(void (*fn)(valueType)) {
     }
 }
 
-void DLL::map(valueType (*fn)(valueType)) {
+template<class T>
+void DLL<T>::map(void (*fn)(T)) {
     Node* cur = _head;
     while (cur) {
         cur->_value = fn(cur->_value);
@@ -245,7 +271,8 @@ void DLL::map(valueType (*fn)(valueType)) {
     }
 }
 
-void DLL::filter(bool (*fn)(valueType)) {
+template<class T>
+void DLL<T>::filter(bool (*fn)(T)) {
     Node* cur = _tail;
     Node* temp;
     size_t i = _size - 1;
@@ -258,3 +285,4 @@ void DLL::filter(bool (*fn)(valueType)) {
         --i;
     }
 }
+*/
